@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Profile </title>
+	<style>
+		body {
+	    	margin: 0;
+	    	font-family: Arial, Helvetica, sans-serif;
+	    	background-color: #90EE90;
+			}
+	 
+		.topnav {
+	    	overflow: hidden;
+	    	background-color: #333;
+	}
+	 
+		.topnav a {
+	    	float: left;
+	    	color: #f2f2f2;
+	    	text-align: center;
+	    	padding: 14px 16px;
+	    	text-decoration: none;
+	    	font-size: 17px;
+	}
+	 
+		.topnav a:hover {
+	    	background-color: yellow;
+	    	color: red;
+	}
+	 
+		.topnav a.active {
+	    	background-color: #4CAF50;
+	    	color: white;
+	}
+		#picture img{
+			border: double;
+			border-color:#00FF00;
+			width: 150px;
+			margin-top: 50px;
+			margin-left: 50px;
+		}
+		#profile {
+			margin-left: 550px;
+			margin-top: -180px;
+			
+		}
+		#profile .frame{
+			border: double;
+			border-radius: 10px;
+		}
+		#profile .frame {
+  			width: 100px;
+ 			height: 100px;
+ 			background: red;
+  			position: relative;
+ 			-webkit-animation: myfirst 5s 2; /* Safari 4.0 - 8.0 */
+ 			-webkit-animation-direction: alternate; /* Safari 4.0 - 8.0 */
+ 			animation: myfirst 5s 2;
+  			animation-direction: alternate;
+			}
+
+
+/* Safari 4.0 - 8.0 */
+		@-webkit-keyframes myfirst {
+  			0%   {background: red; left: 0px; top: 0px;}
+ 			 25%  {background: yellow; left: 200px; top: 0px;}
+ 			 50%  {background: blue; left: 200px; top: 200px;}
+  			75%  {background: green; left: 0px; top: 200px;}
+  			100% {background: red; left: 0px; top: 0px;}
+		}
+
+		@keyframes myfirst {
+  			0%   {background: red; left: 0px; top: 0px;}
+  			25%  {background: yellow; left: 200px; top: 0px;}
+  			50%  {background: blue; left: 200px; top: 200px;}
+  			75%  {background: green; left: 0px; top: 200px;}
+  			100% {background: red; left: 0px; top: 0px;}
+		}
+		#picture img{
+  			width: 300px;
+  			height: 200px;
+  			border: 1px solid black;
+  			-webkit-animation: mymove 5s infinite; /* Safari 4.0 - 8.0 */
+  			animation: mymove 5s infinite;
+		}
+
+/* Safari 4.0 - 8.0 */
+		@-webkit-keyframes mymove {
+ 		 50% {border: 15px solid lightblue;}
+		}
+
+		@keyframes mymove {
+  		50% {border: 15px solid lightblue;}
+	}
+</style>
+</head>
+<body>
+	<div class="topnav">
+    	<a class="active" href="Profile.html">My Profile</a>
+    	<a href="father.html">Father</a>
+    	<a href="mother.html">Mother</a>
+    	<a href="bother.html">Brother</a>
+	</div>
+ 
+<div id = "picture" style="padding-left:16px">
+    <img src="myprofile.jpg"</img>
+</div>
+<div id = "profile">
+	<table class= "frame">
+		<tr>
+			<td>Name:</td>
+			<td>Hung</td>
+		</tr>
+		<tr>
+			<td>Age:</td>
+			<td>22</td>
+		</tr>
+		<tr>
+			<td>Mail:</td>
+			<td>Hungmda10@gmail.com</td>
+		</tr>
+		<tr>
+			<td>Phone:</td>
+			<td>0123456789</td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td>Ha Noi</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
