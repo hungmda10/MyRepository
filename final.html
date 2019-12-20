@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Temperature Plot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body{
+			background-image: linear-gradient(to bottom, white , orange);
+		}
+		h1{
+			text-shadow: 2px 2px #FF0000;;
+		}
+		h3{
+			color: #336600;
+		}
+		.rectangle {
+		  display: inline-block;
+		  margin: 10px 100px;
+		}
+		.imga{
+			width: 100px;
+			height: 80px;
+		}
+		#hum{
+			width: 250px;
+			border: 4px solid #FFCC33;
+			padding-top: 14px;
+			border-radius: 8px;
+			background-color: #FFFF;
+		}
+		#temp{
+			width: 250px;
+			border: 4px solid #FFCC33;
+			padding-top: 14px;
+			border-radius: 8px;
+			background-color: #FFFF;
+		}
+		#Gas{
+			width: 250px;
+			border: 4px solid #FFCC33;
+			padding-top: 14px;
+			border-radius: 8px;
+			background-color: #FFFF;
+		}
+		.contain{
+			float: left;
+		}
+		.onf{
+			width: 60px;
+			height: 40px;
+			border: 3px solid red;
+			border-radius: 5px;
+			background-color: #FFFF99;
+		}
+		.onf:hover{
+			background-color: #6699FF;
+			color: yellow;
+			font-family: bold;
+		}
+		.slidecontainer {
+		  width: 100%;
+		  margin-top: 20%;
+		}
+
+		.slider {
+		  -webkit-appearance: none;
+		  width: 100%;
+		  height: 15px;
+		  border-radius: 5px;
+		  background: #ccff99;
+		  outline: none;
+		  opacity: 0.7;
+		  transition: opacity .2s;
+		}
+
+		.slider:hover {
+		  opacity: 1;
+		}
+
+		.slider::-webkit-slider-thumb {
+		  -webkit-appearance: none;
+		  appearance: none;
+		  width: 25px;
+		  height: 25px;
+		  border-radius: 50%;
+		  background: #ff0000;
+		}
+		.chart-container{
+			position: absolute;
+			left: 150px;
+		}
+		#control{
+			position: absolute;
+			left: 80px;
+		}
+		.checkboxFour {
+		    width: 41px;
+		    height: 41px;
+		    background: #ddd;
+		    margin: 20px 90px;
+		 
+		    border-radius: 100%;
+		    position: relative;
+		    -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+		    -moz-box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+		    box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+		}
+		.checkboxFour label {
+		    display: block;
+		    width: 33px;
+		    height: 33px;
+		    border-radius: 100px;
+		 
+		    -webkit-transition: all .5s ease;
+		    -moz-transition: all .5s ease;
+		    -o-transition: all .5s ease;
+		    -ms-transition: all .5s ease;
+		    transition: all .5s ease;
+		    cursor: pointer;
+		    position: absolute;
+		    top: 4px;
+		    left: 4px;
+		    z-index: 1;
+		 	background: #333;
+		 	-webkit-box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+		    -moz-box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+		    box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+		}
+		.checkboxFour input[type=checkbox]:checked + label {
+		    background: #f4f72e;
+		}
+	</style>
+
+<meta charshet="utf-8" />
+</head>
+    <body>
+    <center>
+        <h1>Data</h1>
+		<div id="hum" class="rectangle">
+			<img src="https://image.flaticon.com/icons/svg/728/728093.svg" class="imga">
+			<h3 id="titlehum1">Hum Value</h3>
+			<p id="humidity" style="font-size: 30px;">0 %</p>
+		</div>
+		<div id="temp" class="rectangle">
+			<img src="https://image.flaticon.com/icons/svg/1312/1312332.svg" class="imga" >
+			<h3 id="titletemp1">Temp Value</h3>
+			<p id="temperature"  style="font-size: 30px;">0 &#176;C</p>
+		</div>
+		<div id="Gas" class="rectangle">
+			<img src="https://image.flaticon.com/icons/svg/728/728093.svg" class="imga">
+			<h3 id="titlehum2">Gas Value</h3>
+			<p id="gas" style="font-size: 30px;">0 %</p>
+		</div>
+	</center>
+	<center>
+		<div>
+			<h1 style="margin-left: 250px;">Chart</h1>
+	        <div class="chart-container" style="position: relative; width:60%; " class="contain">
+	            <canvas id="myChart"></canvas>
+	        </div>
+	        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+	        <script>
+	            var socket = io.connect('http://localhost:3000'); //connect to server
+
+	            var ctx = document.getElementById('myChart').getContext('2d');
+	            var chart = new Chart(ctx, {
+	                // The type of chart we want to create
+	                type: 'bar',
+
+	                // The data for our dataset
+	                data: {
+	                labels: [],
+	                datasets: [{
+	                    label: "Temp Value",
+	                    borderColor: "red",
+	                    data: [],
+	                   	
+	                    backgroundColor: "red",
+	                },
+					{
+	                    label: "Hum Value",
+	                    borderColor: "blue",
+	                    data: [],
+	                    
+	                    backgroundColor: "blue",
+					},
+					{
+	                    label: "Gas Value",
+	                    borderColor: "yellow",
+	                    data: [],
+	                    
+	                    backgroundColor: "yellow",
+					},
+					]
+	                },
+
+	                // Configuration options go here
+	                options: {}
+	                
+	            });
+				
+	            socket.on("temp", function(data) { //As a temp data is received 
+	                
+					// nhiet do , do am , anh sang 
+					var my_data = [data.temp, data.hum ,data.gas];
+					console.log(my_data);
+					var index = 0;
+					
+	                document.getElementById("temperature").innerHTML = data.temp; //update the date
+	                if(data.temp < 29){
+	                	document.getElementById("temperature").style.color = "#1dafb7";
+	                	document.getElementById("titletemp1").style.color = "#1dafb7"
+
+	                } 
+	                if(data.temp >= 29){
+	                	document.getElementById("temperature").style.color = "#ff0000";
+	                	document.getElementById("titletemp1").style.color = "#ff0000";
+	                } 
+	                document.getElementById("humidity").innerHTML = data.hum; //update the date
+	                if(data.hum < 65){
+	                	document.getElementById("humidity").style.color = "#1dafb7";
+	                	document.getElementById("titlehum1").style.color = "#1dafb7";
+	                }
+	                if(data.hum > 65 && data.hum < 80){
+	                	document.getElementById("humidity").style.color = "#1c29b7";
+	                	document.getElementById("titlehum1").style.color = "#1c29b7";
+	                }
+	                if(data.hum > 80){
+	                	document.getElementById("humidity").style.color = "#ff0000";
+	                	document.getElementById("titlehum1").style.color = "##ff0000";
+	                }
+
+	                document.getElementById("gas").innerHTML = data.gas; //update the date
+	                if(data.gas < 20){
+	                	document.getElementById("gas").style.color = "#1dafb7";
+	                	document.getElementById("titlehum2").style.color = "#1dafb7"
+
+	                } 
+	                if(data.gas >= 30){
+	                	document.getElementById("gas").style.color = "#ff0000";
+	                	document.getElementById("titlehum2").style.color = "#ff0000";
+	                } 
+	        
+	                if(chart.data.labels.length != 10) { //If we have less than 15 data points in the graph
+	                    chart.data.labels.push(data.time);  //Add time in x-asix
+	                    chart.data.datasets.forEach((dataset) => {
+	                        dataset.data.push(my_data[index]); //Add temp in y-axis
+							console.log(index);
+							index ++;
+	                    });
+	                }
+	                else { //If there are already 15 data points in the graph.
+	                    chart.data.labels.shift(); //Remove first time data
+	                    chart.data.labels.push(data.time); //Insert latest time data
+	                    chart.data.datasets.forEach((dataset) => {
+	                        dataset.data.shift(); //Remove first temp data
+	                        dataset.data.push(my_data[index]); //Insert latest temp data
+							index ++;
+	                    });
+	                }
+	                chart.update(); //Update the graph.
+	            });
+		    var slider = document.getElementById("myRange");
+			var output = document.getElementById("demo");
+			output.innerHTML = slider.value; // Display the default slider value
+
+			// Update the current slider value (each time you drag the slider handle)
+			slider.oninput = function() {
+			  output.innerHTML = this.value;
+			}
+	        </script>
+        </div>
+     </center>
+    </body>
+
+
+
+
+</html>
+
